@@ -14,7 +14,7 @@ pipeline {
     // Định nghĩa các biến môi trường cho ứng dụng Spring Boot
     environment {
         // Nạp tự động Username và Password từ Credentials Jenkins đã tạo ở Bước 1
-        DB_CREDS = credentials('shoeshop-db-creds') 
+        DB_CREDS = credentials('mysql-shoeshop-creds') 
         
         // Cấu hình các biến Spring Boot sẽ đọc lúc chạy Test hoặc Build
         SPRING_DATASOURCE_URL = 'jdbc:mysql://localhost:3306/shoeshop?useSSL=false&serverTimezone=UTC'
