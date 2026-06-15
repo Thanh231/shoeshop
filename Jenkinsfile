@@ -55,10 +55,10 @@ pipeline {
             steps {
                 echo '===== Deploying Spring Boot Jar ====='
                 script {
-                    // 1. Tắt ứng dụng cũ đang chiếm port 8080 (nếu có)
+                    // Tắt ứng dụng cũ đang chiếm port 8080 (nếu có)
                     sh 'fuser -k 8080/tcp || true'
                     
-                    // 2. Viết trên một dòng duy nhất để tránh lỗi cú pháp Linux
+                    // VIẾT TRÊN 1 DÒNG DUY NHẤT ĐỂ TRÁNH LỖI CÚ PHÁP LINUX
                     sh 'nohup java -jar target/*.jar --spring.datasource.url=${SPRING_DATASOURCE_URL} --spring.datasource.username=${SPRING_DATASOURCE_USERNAME} --spring.datasource.password=${SPRING_DATASOURCE_PASSWORD} > springboot.log 2>&1 &'
                     
                     echo 'Spring Boot Application is running in background. Check log at springboot.log'
