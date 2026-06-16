@@ -60,7 +60,7 @@ pipeline {
                         PID=\$(ps -ef | grep 'shoe-ShoppingCart' | grep -v grep | awk '{print \$2}')
                             if [ ! -z "\$PID" ]; then
                             echo "Stopping application with PID: \$PID"
-                        kill -9 \$PID
+                        sudo kill -9 \$PID
                             else
                             echo "Application is not running."
                             fi
