@@ -66,12 +66,13 @@ pipeline {
                             fi
                         """
                     
+                    withCredentials([usernamePassword(credentialsId: 'mysql-shoeshop-creds',usernameVariable: 'MY_USER',passwordVariable: 'MY_PASS')]) {
                     sh """
-                          JENKINS_NODE_COOKIE=dontKillMe nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar \
-                        --spring.datasource.url=${SPRING_DATASOURCE_URL} \
-                        --spring.datasource.username=${DB_USERNAME} \
-                        --spring.datasource.password=${DB_PASSWORD} > springboot.log 2>&1 &
-                       """
+                        JENKINS_NODE_COOKIE=dontKillMe nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar \
+                        --spring.datasource.url="${SPRING_DATASOURCE_URL}" \
+                        --spring.datasource.username="${MY_USER}" \
+                        --spring.datasource.password="${MY_PASS}" > springboot.log 2>&1 &
+                    """
                     echo 'Spring Boot Application is running in background. Check log at springboot.log'
                 }
             }
