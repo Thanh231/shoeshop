@@ -59,6 +59,7 @@ pipeline {
                     sh 'fuser -k 8080/tcp || true'
                     
                     // VIẾT TRÊN 1 DÒNG DUY NHẤT ĐỂ TRÁNH LỖI CÚ PHÁP LINUX
+                    sh 'pwd'
                     sh 'nohup java -jar target/*.jar --spring.datasource.url=${SPRING_DATASOURCE_URL} --spring.datasource.username=${SPRING_DATASOURCE_USERNAME} --spring.datasource.password=${SPRING_DATASOURCE_PASSWORD} > springboot.log 2>&1 &'
                     
                     echo 'Spring Boot Application is running in background. Check log at springboot.log'
