@@ -56,7 +56,15 @@ pipeline {
                 echo '===== Deploying Spring Boot Jar ====='
                 script {
                     // Tắt ứng dụng cũ đang chiếm port 8080 (nếu có)
-                    sh 'ps -ef | grep 'shoe-ShoppingCart' | grep -v grep | awk '{print \$2}''
+                    sh """
+                        PID=\$(ps -ef | grep 'shoe-ShoppingCart' | grep -v grep | awk '{print \$2}')
+                            if [ ! -z "\$PID" ]; then
+                            echo "Stopping application with PID: \$PID"
+                        kill -9 \$PID
+                            else
+                            echo "Application is not running."
+                            fi
+                        """
                     
                     sh 'nohup java -jar target/*.jar --spring.datasource.url=${SPRING_DATASOURCE_URL} --spring.datasource.username=${SPRING_DATASOURCE_USERNAME} --spring.datasource.password=${SPRING_DATASOURCE_PASSWORD} > springboot.log 2>&1 &'
                     
