@@ -66,8 +66,12 @@ pipeline {
                             fi
                         """
                     
-                    sh 'nohup java -jar target/*.jar --spring.datasource.url=${SPRING_DATASOURCE_URL} --spring.datasource.username=${SPRING_DATASOURCE_USERNAME} --spring.datasource.password=${SPRING_DATASOURCE_PASSWORD} > springboot.log 2>&1 &'
-                    
+                    sh '''
+                        JENKINS_NODE_COOKIE=dontKillMe nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar \
+                        --spring.datasource.url="jdbc:mysql://localhost:3306/shoeshop?useSSL=false&serverTimezone=UTC" \
+                        --spring.datasource.username="shoeshop" \
+                        --spring.datasource.password="shoeshop" > springboot.log 2>&1 &
+                        '''
                     echo 'Spring Boot Application is running in background. Check log at springboot.log'
                 }
             }
