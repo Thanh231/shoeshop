@@ -67,7 +67,7 @@ pipeline {
                         """
                     
                     sh '''
-                        JENKINS_NODE_COOKIE=dontKillMe nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar \
+                        nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar \
                         --spring.datasource.url="jdbc:mysql://localhost:3306/shoeshop?useSSL=false&serverTimezone=UTC" \
                         --spring.datasource.username="shoeshop" \
                         --spring.datasource.password="shoeshop" > springboot.log 2>&1 &
