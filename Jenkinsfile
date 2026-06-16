@@ -18,8 +18,8 @@ pipeline {
         
         // Cấu hình các biến Spring Boot sẽ đọc lúc chạy Test hoặc Build
         SPRING_DATASOURCE_URL = 'jdbc:mysql://localhost:3306/shoeshop?useSSL=false&serverTimezone=UTC'
-        SPRING_DATASOURCE_USERNAME = "${env.DB_CREDS_USR}"
-        SPRING_DATASOURCE_PASSWORD = "${env.DB_CREDS_PSW}"
+        DB_USERNAME = "${env.DB_CREDS_USR}"
+        DB_PASSWORD = "${env.DB_CREDS_PSW}"
     }
 
     stages {
@@ -66,12 +66,12 @@ pipeline {
                             fi
                         """
                     
-                    sh '''
+                    sh """
                           JENKINS_NODE_COOKIE=dontKillMe nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar \
-                        --spring.datasource.url="jdbc:mysql://localhost:3306/shoeshop?useSSL=false&serverTimezone=UTC" \
-                        --spring.datasource.username="shoeshop" \
-                        --spring.datasource.password="shoeshop" > springboot.log 2>&1 &
-                        '''
+                        --spring.datasource.url=${SPRING_DATASOURCE_URL} \
+                        --spring.datasource.username=${DB_USERNAME} \
+                        --spring.datasource.password=${DB_PASSWORD} > springboot.log 2>&1 &
+                       """
                     echo 'Spring Boot Application is running in background. Check log at springboot.log'
                 }
             }
