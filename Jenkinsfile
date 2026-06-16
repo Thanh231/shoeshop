@@ -15,11 +15,7 @@ pipeline {
     environment {
         // Nạp tự động Username và Password từ Credentials Jenkins đã tạo ở Bước 1
         DB_CREDS = credentials('mysql-shoeshop-creds') 
-        
-        // Cấu hình các biến Spring Boot sẽ đọc lúc chạy Test hoặc Build
         SPRING_DATASOURCE_URL = 'jdbc:mysql://localhost:3306/shoeshop?useSSL=false&serverTimezone=UTC'
-        DB_USERNAME = "${env.DB_CREDS_USR}"
-        DB_PASSWORD = "${env.DB_CREDS_PSW}"
     }
 
     stages {
@@ -65,15 +61,13 @@ pipeline {
                             echo "Application is not running."
                             fi
                         """
-                    
-                    withCredentials([usernamePassword(credentialsId: 'mysql-shoeshop-creds',usernameVariable: 'MY_USER',passwordVariable: 'MY_PASS')]) {
                     sh """
-                        JENKINS_NODE_COOKIE=dontKillMe nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar \
-                        --spring.datasource.url="${SPRING_DATASOURCE_URL}" \
-                        --spring.datasource.username="${MY_USER}" \
-                        --spring.datasource.password="${MY_PASS}" > springboot.log 2>&1 &
-                    """
-                    }
+                            JENKINS_NODE_COOKIE=dontKillMe nohup java -jar target/shoe-ShoppingCart-0.0.1-SNAPSHOT.jar \
+                            --spring.datasource.url="${SPRING_DATASOURCE_URL}" \
+                            --spring.datasource.username="${DB_CREDS_USR}" \
+                            --spring.datasource.password="${DB_CREDS_PSW}" > springboot.log 2>&1 &
+                        """
+                    
                     echo 'Spring Boot Application is running in background. Check log at springboot.log'
                 }
             }
