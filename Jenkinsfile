@@ -73,6 +73,7 @@ pipeline {
                         --spring.datasource.username="${MY_USER}" \
                         --spring.datasource.password="${MY_PASS}" > springboot.log 2>&1 &
                     """
+                    }
                     echo 'Spring Boot Application is running in background. Check log at springboot.log'
                 }
             }
